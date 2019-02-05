@@ -11,6 +11,7 @@ if &t_Co < 256
    set t_Co=256
 endif
 " }}}
+
 " Tabs & Spaces {{{
 
 " Autoindent copies the indentation from the previous line
@@ -42,6 +43,10 @@ set hlsearch  " highlight matches
 " Misc vim stuff
 set nocompatible
 set nomodeline
+
+" open new split panes to right and bottom
+set splitbelow
+set splitright
 
 " Turns on indentation settings based on the filetype
 filetype plugin indent on

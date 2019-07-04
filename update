@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# --------------------------------------
+# Constants
+# --------------------------------------
+
+#{{{
+
+source ./env
+
+#}}}
+
+# --------------------------------------
+# Functions
+# --------------------------------------
+
+#{{{
+
+update_file () {
+   src=$1
+   dest="$ROOT_DIR/$1"
+
+   if [ ! -f $dest ]
+   then
+      cp $src $dest
+      echo "$src updated."
+   else
+      echo "$src already exists"
+      read -p "(a)mend, (r)eplace, or (n)othing: " input
+      if [ "$input" = "a" ]
+      then
+         cat $src >> $dest
+      elif [ "$input" = "r" ]
+      then
+         cp $src $dest
+      else
+         :
+      fi
+   fi
+}
+
+usage()
+{
+   echo "usage: ./update [-h] [-a]"
+}
+
+help()
+{
+   echo "usage: ./update -a              for updating all files"
+   echo "   or: ./update --all           for updating all files"
+   echo "   or: ./update [filename ...]  for updating a list of files"
+   echo "   or: ./update -h              for help"
+   echo "   or: ./update --help          for help"
+}
+
+#}}}
+
+# --------------------------------------
+# Main
+# --------------------------------------
+
+#{{{
+
+if [ $# == 0 ]
+then
+   usage
+   exit 0
+fi
+
+for arg in "$@"
+do
+   if [ "$arg" == "--help" ] || [ "$arg" == "-h" ]
+   then
+      help
+      exit 0
+   fi
+done
+
+for arg in "$@"
+do
+   if [ "$arg" == "--all" ] || [ "$arg" == "-a" ]
+   then
+      for i in "${FILES[@]}"
+      do
+         update_file "$i"
+      done
+      exit 0
+   fi
+done
+
+for i in "$@"
+do
+   found=0
+   for file in "${FILES[@]}"
+   do
+      if [ "$file" == "$i" ]
+      then
+         update_file "$i"
+         found=1
+         break
+      fi
+   done
+   if [ $found -eq 0 ]
+   then
+      echo "$i is not defined in the env FILES var"
+   fi
+done
+
+#}}}

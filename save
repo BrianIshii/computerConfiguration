@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# --------------------------------------
+# Constants
+# --------------------------------------
+
+#{{{
+
+source ./env
+
+#}}}
+
+# --------------------------------------
+# Functions
+# --------------------------------------
+
+#{{{
+
+save_file () {
+   src="$ROOT_DIR/$1"
+   dest=$1
+
+   if [ ! -f $dest ]
+   then
+      cp $src $dest
+      echo "$src saved."
+   else
+      echo "$src already exists"
+#      read -p "(a)mend, (r)eplace, or (n)othing: " input
+#      if [ "$input" = "a" ]
+#      then
+#         cat $src >> $dest
+#      elif [ "$input" = "r" ]
+#      then
+#         cp $src $dest
+#      else
+#         :
+#      fi
+   fi
+}
+
+usage()
+{
+   echo "usage: ./save [-h] [-a]"
+}
+
+help()
+{
+   echo "usage: ./save -a              for saving all files"
+   echo "   or: ./save --all           for saving all files"
+   echo "   or: ./save [filename ...]  for saving a list of files"
+   echo "   or: ./save -h              for help"
+   echo "   or: ./save --help          for help"
+}
+#}}}
+
+# --------------------------------------
+# Main
+# --------------------------------------
+
+#{{{
+
+if [ $# == 0 ]
+then
+   usage
+   exit 0
+fi
+
+for arg in "$@"
+do
+   if [ "$arg" == "--help" ] || [ "$arg" == "-h" ]
+   then
+      help
+      exit 0
+   fi
+done
+
+for arg in "$@"
+do
+   if [ "$arg" == "--all" ] || [ "$arg" == "-a" ]
+   then
+      for i in "${FILES[@]}"
+      do
+         save_file "$i"
+      done
+      exit 0
+   fi
+done
+
+for i in "$@"
+do
+   found=0
+   for file in "${FILES[@]}"
+   do
+      if [ "$file" == "$i" ]
+      then
+         save_file "$i"
+         found=1
+         break
+      fi
+   done
+   if [ $found -eq 0 ]
+   then
+      echo "$i is not defined in the env FILES var"
+   fi
+done
+
+#}}}
+
+#cp .vimrc $HOME/.vimrc 

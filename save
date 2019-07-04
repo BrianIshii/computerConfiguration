@@ -26,16 +26,16 @@ save_file () {
       echo "$src saved."
    else
       echo "$src already exists"
-#      read -p "(a)mend, (r)eplace, or (n)othing: " input
-#      if [ "$input" = "a" ]
-#      then
-#         cat $src >> $dest
-#      elif [ "$input" = "r" ]
-#      then
-#         cp $src $dest
-#      else
-#         :
-#      fi
+      read -p "(a)mend, (r)eplace, or (n)othing: " input
+      if [ "$input" = "a" ]
+      then
+         cat $src >> $dest
+      elif [ "$input" = "r" ]
+      then
+         cp $src $dest
+      else
+         :
+      fi
    fi
 }
 

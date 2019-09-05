@@ -1,0 +1,10 @@
+[user]
+	email = brianishii@microvu.com
+	name = Brian Ishii
+
+[alias]
+   lss = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%C(cyan)\\ [%an]" --decorate
+   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%C(cyan)\\ [%an]" --decorate -15
+   lll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%C(cyan)\\ [%an]" --decorate --stat
+   ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%C(cyan)\\ [%an]" --decorate --stat -3
+   ffm = merge --ff-only -
